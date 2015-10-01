@@ -6,6 +6,7 @@ BUNDLE_PATH=$APP_PATH/current
 ENV_FILE=$APP_PATH/config/env.list
 PORT=<%= port %>
 USE_LOCAL_MONGO=<%= useLocalMongo? "1" : "0" %>
+DOCKERBUILD=<%= dockerbuild %>
 
 # Remove previous version of the app, if exists
 docker rm -f $APPNAME
@@ -15,7 +16,7 @@ docker rm -f $APPNAME-frontend
 
 # We don't need to fail the deployment because of a docker hub downtime
 set +e
-docker pull meteorhacks/meteord:base
+docker pull $DOCKERBUILD
 set -e
 
 if [ "$USE_LOCAL_MONGO" == "1" ]; then
