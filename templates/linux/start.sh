@@ -6,7 +6,7 @@ BUNDLE_PATH=$APP_PATH/current
 ENV_FILE=$APP_PATH/config/env.list
 PORT=<%= port %>
 USE_LOCAL_MONGO=<%= useLocalMongo? "1" : "0" %>
-DOCKERBUILD=<%= dockerbuild %>
+DOCKERIMAGE=<%= dockerimage %>
 
 # Remove previous version of the app, if exists
 docker rm -f $APPNAME
@@ -16,7 +16,7 @@ docker rm -f $APPNAME-frontend
 
 # We don't need to fail the deployment because of a docker hub downtime
 set +e
-docker pull $DOCKERBUILD
+docker pull $DOCKERIMAGE
 set -e
 
 if [ "$USE_LOCAL_MONGO" == "1" ]; then
@@ -30,7 +30,7 @@ if [ "$USE_LOCAL_MONGO" == "1" ]; then
     --hostname="$HOSTNAME-$APPNAME" \
     --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
     --name=$APPNAME \
-    $DOCKERBUILD
+    $DOCKERIMAGE
 else
   docker run \
     -d \
@@ -40,7 +40,7 @@ else
     --hostname="$HOSTNAME-$APPNAME" \
     --env-file=$ENV_FILE \
     --name=$APPNAME \
-    $DOCKERBUILD
+    $DOCKERIMAGE
 fi
 
 <% if(typeof sslConfig === "object")  { %>
