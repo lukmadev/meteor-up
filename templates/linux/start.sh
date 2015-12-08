@@ -16,7 +16,7 @@ docker rm -f $APPNAME-frontend
 
 # We don't need to fail the deployment because of a docker hub downtime
 set +e
-docker pull $DOCKERIMAGE
+docker pull lukaventure/meteor-pdf
 set -e
 
 if [ "$USE_LOCAL_MONGO" == "1" ]; then
@@ -30,7 +30,7 @@ if [ "$USE_LOCAL_MONGO" == "1" ]; then
     --hostname="$HOSTNAME-$APPNAME" \
     --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
     --name=$APPNAME \
-    $DOCKERIMAGE
+    lukaventure/meteor-pdf
 else
   docker run \
     -d \
@@ -40,7 +40,7 @@ else
     --hostname="$HOSTNAME-$APPNAME" \
     --env-file=$ENV_FILE \
     --name=$APPNAME \
-    $DOCKERIMAGE
+    lukaventure/meteor-pdf
 fi
 
 <% if(typeof sslConfig === "object")  { %>
